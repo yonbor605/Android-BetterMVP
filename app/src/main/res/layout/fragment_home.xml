@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.yonbor.baselib.widght.NormalTitleBar
+        android:id="@+id/ntb"
+        style="@style/NormalTitleBar" />
+
+    <Button
+        android:id="@+id/btn_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="架构使用示例"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_16" />
+
+
+    <Button
+        android:id="@+id/btn_news"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="新闻头条"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_16" />
+
+</LinearLayout>

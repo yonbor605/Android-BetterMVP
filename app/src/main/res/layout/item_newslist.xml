@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/white"
+    android:padding="@dimen/dp_10">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_toLeftOf="@id/iv_img">
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_16"
+            tools:text="标题" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_deep"
+                android:textSize="@dimen/sp_12"
+                tools:text="作者" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/gray_deep"
+                android:textSize="@dimen/sp_12"
+                tools:text="日期" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/iv_img"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true" />
+
+
+</RelativeLayout>
