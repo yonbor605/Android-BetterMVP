@@ -8,7 +8,9 @@ import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.orhanobut.logger.Logger;
 import com.yonbor.baselib.base.BaseApplication;
+import com.yonbor.baselib.utils.LogUtils;
 import com.yonbor.baselib.utils.NetWorkUtils;
 
 import java.io.File;
@@ -81,7 +83,8 @@ public class HttpApi2 {
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Log.e("HttpApi", "OkHttpMessage:" + message);
+//                Log.e("HttpApi2", "OkHttpMessage:" + message);
+                Logger.json(message);
             }
         });
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
