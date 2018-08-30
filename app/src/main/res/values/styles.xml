@@ -3,13 +3,10 @@
     <!-- Base application theme. -->
     <style name="CustomAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/bg_color</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@style/noAnimation</item>
         <!--<item name="android:fitsSystemWindows">true</item>--> <!--使用这个的话toast的位置会偏上去-->
         <item name="android:clipToPadding">false</item>

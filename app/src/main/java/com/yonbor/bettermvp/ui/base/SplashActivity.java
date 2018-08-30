@@ -4,21 +4,20 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.app.Activity;
-import android.os.Bundle;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yonbor.bettermvp.R;
+import com.yonbor.bettermvp.base.BaseActivity;
+import com.yonbor.bettermvp.utils.StatusBarUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 启动页
  */
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
 
 
     @BindView(R.id.iv_logo)
@@ -26,15 +25,15 @@ public class SplashActivity extends Activity {
     @BindView(R.id.tv_name)
     TextView tvName;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_splash);
-        ButterKnife.bind(this);
-        initView();
+    protected int getLayoutId() {
+        return R.layout.act_splash;
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
+        StatusBarUtil.immersive(this);
         PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.3f, 1f);
         PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 0.3f, 1f);
@@ -69,6 +68,4 @@ public class SplashActivity extends Activity {
         });
         animatorSet.start();
     }
-
-
 }
