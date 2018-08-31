@@ -79,6 +79,7 @@ public class HttpApi2 {
     private HttpApi2(int hostType) {
         //开启Log
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+
             private StringBuilder mMessage = new StringBuilder();
 
             @Override
