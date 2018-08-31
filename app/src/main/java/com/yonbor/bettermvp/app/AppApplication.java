@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.yonbor.baselib.base.BaseApplication;
-import com.yonbor.baselib.utils.LogUtils;
+import com.yonbor.baselib.log.LogUtil;
 import com.yonbor.bettermvp.BuildConfig;
 
 import java.util.Collections;
@@ -34,7 +34,7 @@ public class AppApplication extends BaseApplication {
     private void init() {
 
         /**初始化logger*/
-        LogUtils.logInit(BuildConfig.LOG_DEBUG);
+        LogUtil.logInit(BuildConfig.LOG_DEBUG);
 
         /**注册ActivityListener*/
         registerActivityListener();

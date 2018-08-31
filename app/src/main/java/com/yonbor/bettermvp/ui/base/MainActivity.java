@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.yonbor.baselib.utils.LogUtils;
+import com.yonbor.baselib.log.LogUtil;
 import com.yonbor.bettermvp.R;
 import com.yonbor.bettermvp.app.AppConstant;
 import com.yonbor.bettermvp.base.BaseActivity;
@@ -163,7 +163,7 @@ public class MainActivity extends BaseActivity {
      * 切换
      */
     private void SwitchTo(int position) {
-        LogUtils.logd("主页菜单position" + position);
+        LogUtil.d("主页菜单position" + position);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (position) {
             //首页

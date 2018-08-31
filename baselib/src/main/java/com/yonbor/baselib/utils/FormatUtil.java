@@ -2,6 +2,8 @@ package com.yonbor.baselib.utils;
 
 import android.text.TextUtils;
 
+import com.yonbor.baselib.log.LogUtil;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,6 +30,7 @@ public class FormatUtil {
 
     /**
      * 判断email格式是否正确
+     *
      * @param email
      * @return
      */
@@ -41,6 +44,7 @@ public class FormatUtil {
 
     /**
      * 判断是否全是数字
+     *
      * @param str
      * @return
      */
@@ -56,12 +60,12 @@ public class FormatUtil {
     /**
      * 判断身份证格式
      */
-    public static boolean isIdCardNo(String idNum){
+    public static boolean isIdCardNo(String idNum) {
         //定义判别用户身份证号的正则表达式（要么是15位或18位，最后一位可以为字母）
         Pattern idNumPattern = Pattern.compile("(\\d{14}[0-9a-zA-Z])|(\\d{17}[0-9a-zA-Z])");
         //通过Pattern获得Matcher
         Matcher idNumMatcher = idNumPattern.matcher(idNum);
-        if(!idNumMatcher.matches()){
+        if (!idNumMatcher.matches()) {
             return false;
         }
         return true;
@@ -69,6 +73,7 @@ public class FormatUtil {
 
     /**
      * 判定输入汉字
+     *
      * @param c
      * @return
      */
@@ -87,18 +92,16 @@ public class FormatUtil {
 
     /**
      * 检测String是否全是中文
+     *
      * @param name
      * @return
      */
-    public  static boolean checkNameChese(String name)
-    {
-        boolean res=true;
-        char [] cTemp = name.toCharArray();
-        for(int i=0;i<name.length();i++)
-        {
-            if(!isChinese(cTemp[i]))
-            {
-                res=false;
+    public static boolean checkNameChese(String name) {
+        boolean res = true;
+        char[] cTemp = name.toCharArray();
+        for (int i = 0; i < name.length(); i++) {
+            if (!isChinese(cTemp[i])) {
+                res = false;
                 break;
             }
         }
@@ -107,6 +110,7 @@ public class FormatUtil {
 
     /**
      * 判断是否是银行卡号
+     *
      * @param cardId
      * @return
      */
@@ -142,22 +146,21 @@ public class FormatUtil {
     /**
      * 功能：身份证的有效验证
      *
-     * @param IDStr
-     *            身份证号
+     * @param IDStr 身份证号
      * @return 有效：返回"" 无效：返回String信息
      * @throws ParseException
      */
     public static boolean IDCardValidate(String IDStr) throws ParseException {
         String errorInfo = "";// 记录错误信息
-        String[] ValCodeArr = { "1", "0", "x", "9", "8", "7", "6", "5", "4",
-                "3", "2" };
-        String[] Wi = { "7", "9", "10", "5", "8", "4", "2", "1", "6", "3", "7",
-                "9", "10", "5", "8", "4", "2" };
+        String[] ValCodeArr = {"1", "0", "x", "9", "8", "7", "6", "5", "4",
+                "3", "2"};
+        String[] Wi = {"7", "9", "10", "5", "8", "4", "2", "1", "6", "3", "7",
+                "9", "10", "5", "8", "4", "2"};
         String Ai = "";
         // ================ 号码的长度 15位或18位 ================
         if (IDStr.length() != 15 && IDStr.length() != 18) {
             errorInfo = "身份证号码长度应该为15位或18位。";
-            LogUtils.loge("ID:"+"errorInfo="+errorInfo);
+            LogUtil.e("ID:" + "errorInfo=" + errorInfo);
             return false;
         }
         // =======================(end)========================
@@ -170,7 +173,7 @@ public class FormatUtil {
         }
         if (isNumeric(Ai) == false) {
             errorInfo = "身份证15位号码都应为数字 ; 18位号码除最后一位外，都应为数字。";
-            LogUtils.loge("ID:"+"errorInfo="+errorInfo);
+            LogUtil.e("ID:" + "errorInfo=" + errorInfo);
             return false;
         }
         // =======================(end)========================
@@ -181,7 +184,7 @@ public class FormatUtil {
         String strDay = Ai.substring(12, 14);// 月份
         if (isDataFormat(strYear + "-" + strMonth + "-" + strDay) == false) {
             errorInfo = "身份证生日无效。";
-            LogUtils.loge("ID:"+"errorInfo="+errorInfo);
+            LogUtil.e("ID:" + "errorInfo=" + errorInfo);
             return false;
         }
         GregorianCalendar gc = new GregorianCalendar();
@@ -191,7 +194,7 @@ public class FormatUtil {
                     || (gc.getTime().getTime() - s.parse(
                     strYear + "-" + strMonth + "-" + strDay).getTime()) < 0) {
                 errorInfo = "身份证生日不在有效范围。";
-                LogUtils.loge("ID:"+"errorInfo="+errorInfo);
+                LogUtil.e("ID:" + "errorInfo=" + errorInfo);
                 return false;
             }
         } catch (NumberFormatException e) {
@@ -203,12 +206,12 @@ public class FormatUtil {
         }
         if (Integer.parseInt(strMonth) > 12 || Integer.parseInt(strMonth) == 0) {
             errorInfo = "身份证月份无效";
-            LogUtils.loge("ID:"+"errorInfo="+errorInfo);
+            LogUtil.e("ID:" + "errorInfo=" + errorInfo);
             return false;
         }
         if (Integer.parseInt(strDay) > 31 || Integer.parseInt(strDay) == 0) {
             errorInfo = "身份证日期无效";
-            LogUtils.loge("ID:"+"errorInfo="+errorInfo);
+            LogUtil.e("ID:" + "errorInfo=" + errorInfo);
             return false;
         }
         // =====================(end)=====================
@@ -217,7 +220,7 @@ public class FormatUtil {
         Hashtable h = GetAreaCode();
         if (h.get(Ai.substring(0, 2)) == null) {
             errorInfo = "身份证地区编码错误。";
-            LogUtils.loge("ID:"+"errorInfo="+errorInfo);
+            LogUtil.e("ID:" + "errorInfo=" + errorInfo);
             return false;
         }
         // ==============================================
@@ -236,7 +239,7 @@ public class FormatUtil {
         if (IDStr.length() == 18) {
             if (Ai.equals(IDStr) == false) {
                 errorInfo = "身份证无效，不是合法的身份证号码";
-                LogUtils.loge("ID:"+"errorInfo="+errorInfo);
+                LogUtil.e("ID:" + "errorInfo=" + errorInfo);
                 return false;
             }
         } else {
@@ -248,13 +251,12 @@ public class FormatUtil {
     }
 
 
-
     /**
      * 功能：设置地区编码
      *
      * @return Hashtable 对象
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private static Hashtable GetAreaCode() {
         Hashtable hashtable = new Hashtable();
         hashtable.put("11", "北京");
@@ -315,10 +317,10 @@ public class FormatUtil {
     }
 
     /**
-     * 空值null返回"",防止脏数据奔溃
+     * 空值null返回"",防止脏数据崩溃
      */
     public static String checkValue(String str) {
-        return TextUtils.isEmpty(str)?"":str;
+        return TextUtils.isEmpty(str) ? "" : str;
     }
 }
 

@@ -3,15 +3,14 @@ package com.yonbor.bettermvp.api;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.orhanobut.logger.Logger;
 import com.yonbor.baselib.base.BaseApplication;
-import com.yonbor.baselib.utils.LogUtils;
+import com.yonbor.baselib.log.LogUtil;
 import com.yonbor.baselib.utils.NetWorkUtils;
+import com.yonbor.bettermvp.utils.JsonUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.CacheControl;
+import okhttp3.ConnectionPool;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -33,10 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * yonbor605
  */
 public class HttpApi2 {
-    //读超时长，单位：毫秒
-    public static final int READ_TIME_OUT = 20000;
-    //连接时长，单位：毫秒
-    public static final int CONNECT_TIME_OUT = 20000;
+
+    public static final int DEFAULT_TIMEOUT = 20;
     public Retrofit retrofit;
     public static ApiService apiService;
 
@@ -81,10 +79,24 @@ public class HttpApi2 {
     private HttpApi2(int hostType) {
         //开启Log
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            private StringBuilder mMessage = new StringBuilder();
+
             @Override
             public void log(String message) {
-//                Log.e("HttpApi2", "OkHttpMessage:" + message);
-                Logger.json(message);
+                // 请求或者响应开始
+                if (message.startsWith("--> POST") || message.startsWith("--> GET")) {
+                    mMessage.setLength(0);
+                }
+                // 以{}或者[]形式的说明是响应结果的json数据，需要进行格式化
+                if ((message.startsWith("{") && message.endsWith("}"))
+                        || (message.startsWith("[") && message.endsWith("]"))) {
+                    message = JsonUtil.formatJson(message);
+                }
+                mMessage.append(message.concat("\n"));
+                // 请求或者响应结束，打印整条日志
+                if (message.startsWith("<-- END HTTP")) {
+                    LogUtil.d(mMessage.toString());
+                }
             }
         });
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -104,21 +116,23 @@ public class HttpApi2 {
 
         //创建一个OkHttpClient并设置超时时间
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
-                .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
+                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(false) // 不重连
+                // 这里你可以根据自己的机型设置同时连接的个数和时间，我这里8个，和每个保持时间为20s
+                .connectionPool(new ConnectionPool(8, DEFAULT_TIMEOUT, TimeUnit.SECONDS))
+                .addNetworkInterceptor(logInterceptor)
                 .addInterceptor(mRewriteCacheControlInterceptor) // 自定义的拦截器，用于添加公共参数
-                .addNetworkInterceptor(mRewriteCacheControlInterceptor)
                 .addInterceptor(headerInterceptor)
-                .addInterceptor(logInterceptor)
                 .cache(cache)
                 .build();
 
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(ApiConstants.getHost(hostType))
                 .addConverterFactory(GsonConverterFactory.create(gson)) //请求的结果转为实体类
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) //适配RxJava2.0,RxJava1.x则为RxJavaCallAdapterFactory.create()
+                .baseUrl(ApiConstants.getHost(hostType))
                 .build();
         apiService = retrofit.create(ApiService.class);
     }

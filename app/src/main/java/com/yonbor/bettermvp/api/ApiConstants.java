@@ -18,7 +18,7 @@ public class ApiConstants {
                 host = "http://v.juhe.cn/toutiao/";
                 break;
             case HostType.PICTURE_NEW_LIST:
-                host = "";
+                host = BASEURL;
                 break;
 
             default:
