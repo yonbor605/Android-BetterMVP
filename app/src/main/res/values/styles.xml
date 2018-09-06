@@ -6,7 +6,8 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/bg_color</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowDisablePreview">true</item>
         <item name="android:windowAnimationStyle">@style/noAnimation</item>
         <!--<item name="android:fitsSystemWindows">true</item>--> <!--使用这个的话toast的位置会偏上去-->
         <item name="android:clipToPadding">false</item>
